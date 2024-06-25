@@ -2,13 +2,13 @@ package roomescape.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import roomescape.model.ThemeCreateRequestDto;
 import roomescape.model.ThemeCreateResponseDto;
+import roomescape.model.ThemeReadResponseDto;
 import roomescape.service.ThemeAdminService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/themes")
@@ -25,4 +25,9 @@ public class ThemeAdminApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(themeCreateResponseDto);
     }
 
+    @GetMapping
+    public ResponseEntity<List<ThemeReadResponseDto>> readTheme() {
+        List<ThemeReadResponseDto> themeReadResponseDtos = themeAdminService.readThemes();
+        return ResponseEntity.ok().body(themeReadResponseDtos);
+    }
 }
