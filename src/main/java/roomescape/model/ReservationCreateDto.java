@@ -5,6 +5,7 @@ public class ReservationCreateDto {
     private String date;
     private String name;
     private Long timeId;
+    private Long themeId;
 
     public ReservationCreateDto(String date, String name, Long timeId) {
         this.date = date;
@@ -22,5 +23,9 @@ public class ReservationCreateDto {
 
     public Long getTimeId() {
         return timeId;
+    }
+
+    public Long getThemeId() {
+        return themeId;
     }
 }
