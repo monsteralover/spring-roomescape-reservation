@@ -31,4 +31,8 @@ public class ThemeAdminService {
         return themes.stream().map(theme -> new ThemeReadResponseDto(theme.getId(), theme.getName(),
                 theme.getDescription(), theme.getThumbnail())).toList();
     }
+
+    public void deleteTheme(Long id) {
+        themeDAO.deleteTheme(id);
+    }
 }

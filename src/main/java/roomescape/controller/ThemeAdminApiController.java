@@ -30,4 +30,10 @@ public class ThemeAdminApiController {
         List<ThemeReadResponseDto> themeReadResponseDtos = themeAdminService.readThemes();
         return ResponseEntity.ok().body(themeReadResponseDtos);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTheme(@PathVariable Long id) {
+        themeAdminService.deleteTheme(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
