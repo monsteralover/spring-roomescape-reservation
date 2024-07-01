@@ -112,4 +112,24 @@ public class MissionStepTest {
                 .body("thumbnail", equalTo("https://i.pinimg.com/236x/6e/bc/46/6ebc461a94a49f9ea3b8bbe2204145d4.jpg"));
     }
 
+    @Test
+    void readTheme() {
+        createTheme();
+        RestAssured.given().log().all()
+                .when().get("/themes")
+                .then().log().all()
+                .statusCode(200)
+                .body("size()", is(1));
+    }
+
+    @Test
+    void deleteTheme() {
+        createTheme();
+        RestAssured.given().log().all()
+                .when().delete("themes/1")
+                .then().log().all()
+                .statusCode(204);
+    }
+
+
 }
