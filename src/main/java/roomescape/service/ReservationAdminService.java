@@ -25,6 +25,13 @@ public class ReservationAdminService {
         this.themeDAO = themeDAO;
     }
 
+    public static boolean isInValidDateFormat(String date) {
+        String DATE_PATTERN = "^(\\d{4})-(\\d{2})-(\\d{2})$";
+        Pattern pattern = Pattern.compile(DATE_PATTERN);
+        Matcher matcher = pattern.matcher(date);
+        return !matcher.matches();
+    }
+
     public ReservationCreateResponseDto createReservation(ReservationCreateDto reservationCreateDto) {
         validateReservationCreation(reservationCreateDto);
         ReservationTime reservationTime = reservationTimeDAO.findReservationTimeById(reservationCreateDto.getTimeId());
@@ -41,15 +48,8 @@ public class ReservationAdminService {
         }
     }
 
-    public static boolean isInValidDateFormat(String date) {
-        String DATE_PATTERN = "^(\\d{4})-(\\d{2})-(\\d{2})$";
-        Pattern pattern = Pattern.compile(DATE_PATTERN);
-        Matcher matcher = pattern.matcher(date);
-        return !matcher.matches();
-    }
-
     public boolean containsSpecialCharacters(String input) {
-        String SPECIAL_CHAR_PATTERN = "[^a-zA-Z0-9 ]";
+        String SPECIAL_CHAR_PATTERN = "[^\\p{IsAlphabetic}\\p{IsDigit} ]";
         Pattern pattern = Pattern.compile(SPECIAL_CHAR_PATTERN);
         Matcher matcher = pattern.matcher(input);
         return matcher.find();

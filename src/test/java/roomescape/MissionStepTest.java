@@ -114,7 +114,11 @@ public class MissionStepTest {
                 .then().log().all()
                 .statusCode(200)
                 .body("size()", is(1));
+    }
 
+    @Test
+    void reservationDelete() {
+        reservation();
         RestAssured.given().log().all()
                 .when().delete("/reservations/1")
                 .then().log().all()
@@ -125,6 +129,16 @@ public class MissionStepTest {
                 .then().log().all()
                 .statusCode(200)
                 .body("size()", is(0));
+    }
+
+    @Test
+    void validateReservationTimeDelete() {
+        reservation();
+        RestAssured.given().log().all()
+                .when().delete("/times/1")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", equalTo("예약이 존재하는 시간은 삭제할 수 없습니다."));
     }
 
     @Test
