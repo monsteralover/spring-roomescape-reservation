@@ -1,10 +1,16 @@
 package roomescape.model;
 
-public class ReservationCreateDto {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
+public class ReservationCreateDto {
+    @NotBlank
     private String date;
+    @NotBlank
     private String name;
+    @Positive
     private Long timeId;
+    @Positive
     private Long themeId;
 
     public ReservationCreateDto(String date, String name, Long timeId) {

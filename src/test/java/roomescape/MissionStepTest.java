@@ -67,8 +67,27 @@ public class MissionStepTest {
                 .body(params)
                 .when().post("/times")
                 .then().log().all()
+                .statusCode(400);
+    }
+
+    @Test
+    void validateReservationCreation() {
+        createReservationTime();
+        createTheme();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "브$라운");
+        params.put("date", "2023-08-05");
+        params.put("timeId", 1);
+        params.put("themeId", 1);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/reservations")
+                .then().log().all()
                 .statusCode(400)
-                .body("message", equalTo("24시간제 형식에 맞는 시간을 입력해주세요."));
+                .body("message", equalTo("이름에 특수문자나 공백이 들어갈 수 없습니다."));
     }
 
     @Test
