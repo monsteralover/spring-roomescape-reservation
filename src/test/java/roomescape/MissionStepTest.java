@@ -59,6 +59,19 @@ public class MissionStepTest {
     }
 
     @Test
+    void reservationTimeInvalid() {
+        Map<String, String> params = new HashMap<>();
+        params.put("startAt", "28:00");
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/times")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", equalTo("24시간제 형식에 맞는 시간을 입력해주세요."));
+    }
+
+    @Test
     void reservation() {
         createReservationTime();
         createTheme();
