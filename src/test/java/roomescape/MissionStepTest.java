@@ -71,13 +71,13 @@ public class MissionStepTest {
     }
 
     @Test
-    void validateReservationCreation() {
+    void validateReservationCreationName() {
         createReservationTime();
         createTheme();
 
         Map<String, Object> params = new HashMap<>();
         params.put("name", "브$라운");
-        params.put("date", "2023-08-05");
+        params.put("date", "2025-08-05");
         params.put("timeId", 1);
         params.put("themeId", 1);
 
@@ -91,13 +91,33 @@ public class MissionStepTest {
     }
 
     @Test
-    void reservation() {
+    void validateReservationCreationDatePast() {
         createReservationTime();
         createTheme();
 
         Map<String, Object> params = new HashMap<>();
         params.put("name", "브라운");
         params.put("date", "2023-08-05");
+        params.put("timeId", 1);
+        params.put("themeId", 1);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/reservations")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", equalTo("예약은 미래 시간에만 생성 가능합니다."));
+    }
+
+    @Test
+    void reservation() {
+        createReservationTime();
+        createTheme();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "브라운");
+        params.put("date", "2025-08-05");
         params.put("timeId", 1);
         params.put("themeId", 1);
 
