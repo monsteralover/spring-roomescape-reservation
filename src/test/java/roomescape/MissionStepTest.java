@@ -152,6 +152,25 @@ public class MissionStepTest {
     }
 
     @Test
+    void reservationAlreadyExists() {
+        reservation();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", "브라운");
+        params.put("date", "2025-08-05");
+        params.put("timeId", 1);
+        params.put("themeId", 1);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(params)
+                .when().post("/reservations")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", equalTo("동일한 예약이 존재합니다."));
+    }
+
+    @Test
     void validateReservationTimeDelete() {
         reservation();
         RestAssured.given().log().all()

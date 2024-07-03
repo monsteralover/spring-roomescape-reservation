@@ -3,6 +3,7 @@ package roomescape.service;
 import org.springframework.stereotype.Service;
 import roomescape.exception.ReservationDateInvalidException;
 import roomescape.exception.ReservationDatePastException;
+import roomescape.exception.ReservationDuplicateException;
 import roomescape.exception.ReservationNameInvalidException;
 import roomescape.model.*;
 import roomescape.respository.ReservationDAO;
@@ -60,6 +61,14 @@ public class ReservationAdminService {
         if (containsSpecialCharacters(reservationCreateDto.getName()) || containsWhitespace(reservationCreateDto.getName())) {
             throw new ReservationNameInvalidException("이름에 특수문자나 공백이 들어갈 수 없습니다.");
         }
+        if (isSameReservationExists(reservationCreateDto)) {
+            throw new ReservationDuplicateException("동일한 예약이 존재합니다.");
+        }
+    }
+
+    private boolean isSameReservationExists(ReservationCreateDto reservationCreateDto) {
+        return reservationDAO.isReservationExistByTimeIdAndThemeIdAndDate(reservationCreateDto.getTimeId(),
+                reservationCreateDto.getThemeId(), reservationCreateDto.getDate());
     }
 
     private boolean containsSpecialCharacters(String input) {

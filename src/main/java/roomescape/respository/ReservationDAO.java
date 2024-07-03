@@ -84,4 +84,10 @@ public class ReservationDAO {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count != null && count > 0;
     }
+
+    public boolean isReservationExistByTimeIdAndThemeIdAndDate(Long timeId, Long themeId, String date) {
+        String sql = "select count(*) from reservation where time_id = ? and theme_id = ? and date = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{timeId, themeId, date}, Integer.class);
+        return count != null && count > 0;
+    }
 }
